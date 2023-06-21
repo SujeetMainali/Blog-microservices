@@ -1,17 +1,29 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-const app = express()
-app.use(bodyParser.json())
+import express from "express";
+import bodyParser from "body-parser";
+import { v4 as uuid } from "uuid";
+const app = express();
+app.use(bodyParser.json());
 
-app.get('/posts/:id/comments', (req, res)=>{
-    res.json({
-        name : "sujeet"
-    })
-})
+const commentsByPostId = {};
 
+app.get("/posts/:id/comments", (req, res) => {
+  res.send(commentsByPostId[req.params.id] || [])
+});
 
+app.post("/posts/:id/comments", (req, res) => {
+  const commentId = uuid();
+  const { content } = req.body;
+  const comments = commentsByPostId[req.params.id] || [];
+  comments.push({
+    id: commentId,
+    content,
+  });
 
-app.listen(3000, ()=>{
-    console.log(`http://localhost:3000`);
-    
-})
+  commentsByPostId[req.params.id] = comments;
+
+  res.status(200).send(comments)
+});
+
+app.listen(4001, () => {
+  console.log(`http://localhost:4001`);
+});
