@@ -16,10 +16,12 @@ const PostCreate = () => {
   });
   const onSubmit =async (data: any) => {
     console.log(data);
-    await axios.post("http://localhost:4000/post", {
-      data,
-    });
-    reset();
+    try {
+      await axios.post("http://localhost:4000/post", data);
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className=" flex justify-center ">
