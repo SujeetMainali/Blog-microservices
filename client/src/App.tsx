@@ -1,7 +1,9 @@
+import './App.css'
+import PostCreate from './components/PostCreate';
 function App() {
   return (
     <>
-      <p>Hello</p>
+     <PostCreate />
     </>
   );
 }
