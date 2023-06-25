@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import CommentCreate from "./CommentCreate";
 
 const getPosts =async () => {
   const res = await axios.get('http://localhost:4000/posts')
@@ -24,6 +25,9 @@ const PostList = () => {
             className=" w-56 h-56 border-2 border-black text-center "
           >
             <p className=" font-bold text-xl">{post.title}</p>
+            <div className=" mt-3">
+              <CommentCreate id={post.id} />
+            </div>
           </div>
         );
       })}
