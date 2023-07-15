@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CommentCreate from "./CommentCreate";
+import CommentsList from "./CommentsList";
 
 const getPosts =async () => {
   const res = await axios.get('http://localhost:4000/posts')
-  console.log(res?.data, 'asdhfjkashdgfjkhasd');
+  // console.log(res?.data, 'asdhfjkashdgfjkhasd');
   
   return res?.data
 }
@@ -14,7 +15,7 @@ const PostList = () => {
     queryKey: ['posts'],
     queryFn: getPosts
   })
-  console.log("sdhfkasdhf", fetchPosts);
+  // console.log("sdhfkasdhf", fetchPosts);
   if(fetchPosts.isLoading) return <div>Loading.....</div>
   return (
     <div className="flex flex-wrap flex-row gap-4 mt-5 ml-6">
@@ -26,6 +27,7 @@ const PostList = () => {
           >
             <p className=" font-bold text-xl">{post.title}</p>
             <div className=" mt-3">
+              <CommentsList postId={post.id} />
               <CommentCreate id={post.id} />
             </div>
           </div>
