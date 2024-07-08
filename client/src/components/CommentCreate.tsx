@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { CommentSchema } from "../schema/CommentSchema";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ICommentProps {
   id: string;
@@ -10,6 +11,7 @@ interface ICommentProps {
 
 const CommentCreate = (props: ICommentProps) => {
   const { id } = props;
+  const queryClient = useQueryClient();
   const {
     handleSubmit,
     reset,
@@ -38,6 +40,7 @@ const CommentCreate = (props: ICommentProps) => {
         theme: "colored",
       });
       // Display a success message or perform any desired action here
+      queryClient.invalidateQueries(["comments"]);
     } catch (error) {
       // Handle errors if necessary
       console.log(error);

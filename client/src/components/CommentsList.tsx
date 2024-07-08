@@ -12,23 +12,24 @@ const getComments= async (id: string)=>{
 const CommentsList = (props: ICommentProps) => {
      const { postId } = props;
      const fetchComments = useQuery({
-        queryKey: ['comments'],
+        queryKey: ['comments', postId],
         queryFn: ()=> getComments(postId)
      })
      console.log(fetchComments.data, "comments");
      
      if(fetchComments.isLoading) return <div>Loading....</div>
-  return (
-    <div>
-      <ul>
-        {fetchComments.data.map((comment:any) => {
-          return(
-            <li key={comment.id}>{comment.content}</li>
-          )
-        })}
-      </ul>
-    </div>
-  );
+      
+     const renderedComments = fetchComments.data.map((comment: any) => {
+        return <li key={comment.id}>{comment.content}</li>
+     })
+
+      return (
+          <div>
+              <ul>
+                  {renderedComments}
+              </ul>
+          </div>
+      )
 }
 
 export default CommentsList

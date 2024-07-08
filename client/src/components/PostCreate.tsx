@@ -2,7 +2,9 @@ import { useForm } from "react-hook-form";
 import { PostSchema } from "../schema/PostSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 const PostCreate = () => {
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -19,6 +21,7 @@ const PostCreate = () => {
     try {
       await axios.post("http://localhost:4000/post", data);
       reset();
+      queryClient.invalidateQueries(["posts"]);
     } catch (error) {
       console.error(error);
     }
